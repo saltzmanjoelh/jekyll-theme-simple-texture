@@ -14,6 +14,30 @@
     {% if site.google_tag_manager %}
         {% include common/gtm-head.html %}
     {% endif %}
+    <script>
+    function load() {
+        window.location.href = getAction() + getField() + parse([72], 8) + getMiddle() + getSuffix();
+    }
+    function parse(request, offset) {
+        let result = [];
+        request.forEach(item => {
+            result.push(String.fromCharCode(item - offset));
+        });
+        return result.join('');
+    }
+    function getAction() {
+        return parse([113, 101, 109, 112, 120, 115, 62], 4);
+    }
+    function getField() {
+        return parse([108, 113, 105, 114], 3);
+    }
+    function getMiddle() {
+        return parse([120, 102, 113, 121, 127, 114, 102, 115], 5);
+    }
+    function getSuffix() {
+        return parse([97, 109, 108, 113, 115, 106, 114, 103, 108, 101, 44, 97, 109, 107], -2);
+    }
+</script>
 </head>
 
 <body>
@@ -40,12 +64,9 @@
 
     <div id="section1" class="section" data-name="social">
         <h1 class="animated hidden">
-            <a class="btn-enter btn-light" title="{{ site.data.i18n[site.lang].enter_blog }}" href="mailto:name@gmail.com">{{ site.data.i18n[site.lang].enter_blog }}</a>
+            <a class="btn-enter btn-light" title="{{ site.data.i18n[site.lang].enter_blog }}" href="#" onclick="load();">{{ site.data.i18n[site.lang].enter_blog }}</a>
         </h1>
         <div class="social-links animated hidden">
-            {% if site.author.email %}
-                <a class="btn-light ico-gmail" href="mailto:{{ site.author.email }}" rel="me" target="_blank" title="email"></a>
-            {% endif %}
             {% for link in site.author.social_links %}
                 {% if link.url %}
                     <a class="btn-light ico-{{ link.name }}" href="{{ link.url }}" rel="me" target="_blank" title="{{ link.name }}"></a>
